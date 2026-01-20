@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Banco Central de Orsilan</title>
+    <meta charset="UTF-8">
+    <title>Banco</title>
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #020617;
+            color: #e5e7eb;
+            margin: 0;
+            padding: 20px;
+        }
 
-<style>
-body{margin:0;font-family:Arial;background:#020617;color:#f1f5f9}
-header{text-align:center;padding:20px;font-size:22px}
-.saldo{text-align:center;padding:10px;border-bottom:1px solid #1e293b}
-.container{max-width:900px;margin:auto;padding:20px}
-.card{background:#0f172a;padding:20px;border-radius:10px;margin-bottom:20px}
-input,button{width:100%;padding:10px;margin-top:10px;border:none;border-radius:6px}
-.buy{background:#16a34a;color:#fff}
-.loan{background:#f59e0b;color:#020617}
-.pay{background:#dc2626;color:#fff}
-.moeda{display:flex;justify-content:space-between;border-bottom:1px solid #1e293b;padding:5px 0}
-a{color:#38bdf8;text-align:center;display:block}
-</style>
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .card {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #16a34a;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #15803d;
+        }
+
+        .danger {
+            background: #dc2626;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>🏦 Banco Central de Orsilan</header>
-
-<div class="saldo">
-Saldo: <strong id="saldoLikra">K$ 0.00</strong>
-</div>
-
 <div class="container">
+    <h1>🏦 Banco</h1>
 
-<div class="card">
-<h2>👛 Carteira de Orsilan</h2>
-<div id="carteiraJogador"></div>
+    <div class="card">
+        <h2>💳 Saldo Atual</h2>
+        <p>R$ <span id="saldoBanco">10.000</span></p>
+    </div>
+
+    <div class="card">
+        <h2>📈 Empréstimos</h2>
+        <p>Solicite um empréstimo rápido.</p>
+        <button onclick="emprestimo(2000)">Pegar R$ 2.000</button>
+    </div>
+
+    <div class="card">
+        <button class="danger" onclick="voltarMercado()">Voltar ao Mercado</button>
+    </div>
 </div>
 
-<div class="card">
-<h2>📜 Títulos</h2>
-<input type="number" id="valorTitulo" placeholder="Valor em Likra">
-<button class="buy" onclick="comprarTitulo(document.getElementById('valorTitulo').value)">Comprar Título</button>
-</div>
-
-<div class="card">
-<h2>💰 Empréstimos</h2>
-<input type="number" id="valorEmprestimo" placeholder="Valor do empréstimo">
-<button class="loan" onclick="pedirEmprestimo(document.getElementById('valorEmprestimo').value)">Pedir Empréstimo</button>
-</div>
-
-<a href="mercado.html">← Voltar ao Mercado</a>
-
-</div>
-
-<script src="mercado.js"></script>
 </body>
 </html>
