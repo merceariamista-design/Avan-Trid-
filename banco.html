@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Banco Central – Likra</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#020617;
+    color:#f1f5f9;
+}
+
+header{
+    text-align:center;
+    padding:20px;
+    font-size:22px;
+    font-weight:bold;
+    background:#020617;
+    border-bottom:1px solid #1e293b;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:#0f172a;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 0 10px rgba(0,0,0,.5);
+}
+
+.card h2{
+    margin-top:0;
+    color:#38bdf8;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border-radius:6px;
+    border:none;
+    outline:none;
+}
+
+button{
+    margin-top:10px;
+    padding:10px;
+    width:100%;
+    border:none;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.buy{
+    background:#16a34a;
+    color:#fff;
+}
+
+.loan{
+    background:#f59e0b;
+    color:#020617;
+}
+
+.pay{
+    background:#dc2626;
+    color:#fff;
+}
+
+.list{
+    font-size:14px;
+    margin-top:10px;
+    opacity:.9;
+}
+
+a{
+    color:#38bdf8;
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+🏦 Banco Central Likra
+</header>
+
+<div class="container">
+
+    <!-- TÍTULOS -->
+    <div class="card">
+        <h2>📜 Comprar Títulos</h2>
+        <p>Invista Likra e receba juros.</p>
+        <input type="number" id="valorTitulo" placeholder="Valor em Likra (K$)">
+        <button class="buy" onclick="comprarTituloUI()">Comprar Título</button>
+        <div class="list" id="listaTitulos"></div>
+    </div>
+
+    <!-- EMPRÉSTIMOS -->
+    <div class="card">
+        <h2>💰 Empréstimos</h2>
+        <p>Pegue Likra emprestado e pague com juros.</p>
+        <input type="number" id="valorEmprestimo" placeholder="Valor do empréstimo">
+        <button class="loan" onclick="pedirEmprestimoUI()">Pedir Empréstimo</button>
+        <div class="list" id="listaEmprestimos"></div>
+    </div>
+
+    <a href="mercado.html">← Voltar ao Mercado</a>
+
+</div>
+
+<script src="mercado.js"></script>
+
+<script>
+// ===============================
+// INTERFACE VISUAL
+// ===============================
+function comprarTituloUI(){
+    let valor = Number(document.getElementById("valorTitulo").value);
+    if(valor > 0){
+        comprarTitulo(valor);
+        atualizarListas();
+    }
+}
+
+function pedirEmprestimoUI(){
+    let valor = Number(document.getElementById("valorEmprestimo").value);
+    if(valor > 0){
+        pedirEmprestimo(valor);
+        atualizarListas();
+    }
+}
+
+function atualizarListas(){
+    let tit = document.getElementById("listaTitulos");
+    let emp = document.getElementById("listaEmprestimos");
+
+    tit.innerHTML = "<strong>Títulos ativos:</strong><br>";
+    titulos.forEach((t,i)=>{
+        tit.innerHTML += `#${i+1} - K$ ${t.valor} | Juros ${(t.juros*100)}%<br>`;
+    });
+
+    emp.innerHTML = "<strong>Empréstimos:</strong><br>";
+    emprestimos.forEach((e,i)=>{
+        emp.innerHTML += `#${i+1} - Restante K$ ${e.restante.toFixed(2)}
+        <button class="pay" onclick="pagarParcela(${i})">Pagar parcela</button><br>`;
+    });
+}
+
+// Atualiza listas automaticamente
+setInterval(atualizarListas, 3000);
+</script>
+
+</body>
+</html>
