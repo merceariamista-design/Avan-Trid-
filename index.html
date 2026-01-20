@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jogo do Capital – Banco Próprio</title>
+<title>Jogo do Capital – Banco e Títulos</title>
 
 <style>
 body {
@@ -21,7 +21,7 @@ header {
 
 section {
   padding: 20px;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: auto;
 }
 
@@ -35,7 +35,7 @@ section {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
   gap: 15px;
 }
 
@@ -62,7 +62,7 @@ input {
 }
 
 .log {
-  max-height: 150px;
+  max-height: 160px;
   overflow-y: auto;
   font-size: 14px;
 }
@@ -72,36 +72,50 @@ input {
 <body>
 
 <header>
-  <h1>🏦 Jogo do Capital</h1>
-  <p>Construa sua fortuna com banco próprio</p>
+  <h1>🏦📜 Jogo do Capital</h1>
+  <p>Banco próprio e emissão de títulos</p>
 </header>
 
 <section>
 
 <div class="stats">
   <div class="card">
-    <h3>💰 Dinheiro em Caixa</h3>
+    <h3>💰 Caixa</h3>
     <p>R$ <span id="dinheiro">1000</span></p>
   </div>
 
   <div class="card">
     <h3>🏦 Banco</h3>
     <p>Saldo: R$ <span id="saldoBanco">0</span></p>
-    <p>Juros: 2% / ciclo</p>
   </div>
 
   <div class="card">
-    <h3>📈 Renda Mensal</h3>
+    <h3>📜 Dívida (Títulos)</h3>
+    <p>R$ <span id="divida">0</span></p>
+    <p>Juros: 3% / ciclo</p>
+  </div>
+
+  <div class="card">
+    <h3>📈 Renda</h3>
     <p>R$ <span id="renda">0</span></p>
   </div>
 </div>
 
 <!-- BANCO -->
 <div class="card">
-  <h3>🏦 Seu Banco</h3>
+  <h3>🏦 Banco</h3>
   <input type="number" id="valorBanco" placeholder="Valor">
   <button onclick="depositar()">Depositar</button>
   <button onclick="sacar()">Sacar</button>
+</div>
+
+<!-- TITULOS -->
+<div class="card">
+  <h3>📜 Emissão de Títulos</h3>
+  <input type="number" id="valorTitulo" placeholder="Valor do título">
+  <button onclick="emitirTitulo()">Emitir Título</button>
+  <button onclick="pagarTitulo()">Pagar Dívida</button>
+  <p style="font-size:13px;">Títulos aumentam o caixa, mas geram juros.</p>
 </div>
 
 <!-- EMPRESAS -->
@@ -111,7 +125,7 @@ input {
   <button onclick="comprarEmpresa()">Comprar Empresa</button>
 </div>
 
-<!-- IMÓVEIS -->
+<!-- IMOVEIS -->
 <div class="card">
   <h3>🏠 Comprar Imóvel</h3>
   <p>Custo: R$ 1000 | Renda: +R$ 120</p>
@@ -130,23 +144,26 @@ input {
 let dinheiro = 1000;
 let saldoBanco = 0;
 let renda = 0;
+let divida = 0;
 
-// carregar progresso
-if (localStorage.getItem("save")) {
-  let s = JSON.parse(localStorage.getItem("save"));
+// carregar save
+if (localStorage.getItem("save2")) {
+  let s = JSON.parse(localStorage.getItem("save2"));
   dinheiro = s.dinheiro;
   saldoBanco = s.saldoBanco;
   renda = s.renda;
+  divida = s.divida;
 }
 
 function salvar() {
-  localStorage.setItem("save", JSON.stringify({ dinheiro, saldoBanco, renda }));
+  localStorage.setItem("save2", JSON.stringify({ dinheiro, saldoBanco, renda, divida }));
 }
 
 function atualizar() {
   document.getElementById("dinheiro").innerText = dinheiro.toFixed(2);
   document.getElementById("saldoBanco").innerText = saldoBanco.toFixed(2);
   document.getElementById("renda").innerText = renda.toFixed(2);
+  document.getElementById("divida").innerText = divida.toFixed(2);
   salvar();
 }
 
@@ -156,21 +173,41 @@ function log(msg) {
 }
 
 function depositar() {
-  let v = Number(document.getElementById("valorBanco").value);
+  let v = Number(valorBanco.value);
   if (v > 0 && v <= dinheiro) {
     dinheiro -= v;
     saldoBanco += v;
-    log("💳 Depósito de R$ " + v);
+    log("💳 Depósito R$ " + v);
     atualizar();
   }
 }
 
 function sacar() {
-  let v = Number(document.getElementById("valorBanco").value);
+  let v = Number(valorBanco.value);
   if (v > 0 && v <= saldoBanco) {
     saldoBanco -= v;
     dinheiro += v;
-    log("🏧 Saque de R$ " + v);
+    log("🏧 Saque R$ " + v);
+    atualizar();
+  }
+}
+
+function emitirTitulo() {
+  let v = Number(valorTitulo.value);
+  if (v > 0) {
+    dinheiro += v;
+    divida += v;
+    log("📜 Título emitido: R$ " + v);
+    atualizar();
+  }
+}
+
+function pagarTitulo() {
+  let v = Number(valorTitulo.value);
+  if (v > 0 && v <= dinheiro && v <= divida) {
+    dinheiro -= v;
+    divida -= v;
+    log("📉 Dívida paga: R$ " + v);
     atualizar();
   }
 }
@@ -179,7 +216,7 @@ function comprarEmpresa() {
   if (dinheiro >= 500) {
     dinheiro -= 500;
     renda += 50;
-    log("🏪 Empresa adquirida");
+    log("🏪 Empresa comprada");
     atualizar();
   }
 }
@@ -188,22 +225,38 @@ function comprarImovel() {
   if (dinheiro >= 1000) {
     dinheiro -= 1000;
     renda += 120;
-    log("🏠 Imóvel adquirido");
+    log("🏠 Imóvel comprado");
     atualizar();
   }
 }
 
-// JUROS DO BANCO (a cada 5 segundos)
+// JUROS DO BANCO
 setInterval(() => {
   if (saldoBanco > 0) {
-    let juros = saldoBanco * 0.02;
-    saldoBanco += juros;
-    log("🏦 Juros recebidos: R$ " + juros.toFixed(2));
+    let j = saldoBanco * 0.02;
+    saldoBanco += j;
+    log("🏦 Juros banco: R$ " + j.toFixed(2));
     atualizar();
   }
 }, 5000);
 
-// RENDA AUTOMÁTICA
+// JUROS DA DÍVIDA (TÍTULOS)
+setInterval(() => {
+  if (divida > 0) {
+    let j = divida * 0.03;
+    dinheiro -= j;
+    log("📜 Juros da dívida pagos: R$ " + j.toFixed(2));
+
+    if (dinheiro < 0) {
+      alert("💥 FALÊNCIA! Dívida impagável.");
+      localStorage.clear();
+      location.reload();
+    }
+    atualizar();
+  }
+}, 6000);
+
+// RENDA
 setInterval(() => {
   dinheiro += renda;
   atualizar();
