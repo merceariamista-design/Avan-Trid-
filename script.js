@@ -125,3 +125,33 @@ atualizarSaldo();
 atualizarPrecos();
 atualizarCarteira();
 setInterval(variarMercado, 10000);
+// ===============================
+// LUCRO / PREJUÍZO
+// ===============================
+function calcularResultado() {
+    let investido = 0;
+    let valorAtual = 0;
+
+    for (let moeda in carteira) {
+        investido += carteira[moeda] * estadoPadrao.moedas[moeda];
+        valorAtual += carteira[moeda] * moedas[moeda];
+    }
+
+    const el = document.getElementById("resultado");
+    if (!el) return;
+
+    let diferenca = valorAtual - investido;
+    let cor = diferenca >= 0 ? "#16a34a" : "#dc2626";
+    let sinal = diferenca >= 0 ? "+" : "";
+
+    el.innerHTML = `
+        <div>Investido: R$ ${investido.toFixed(2)}</div>
+        <div>Valor atual: R$ ${valorAtual.toFixed(2)}</div>
+        <div style="color:${cor}; font-weight:bold">
+            Resultado: ${sinal}R$ ${diferenca.toFixed(2)}
+        </div>
+    `;
+}
+
+// recalcula sempre
+setInterval(calcularResultado, 1000);
