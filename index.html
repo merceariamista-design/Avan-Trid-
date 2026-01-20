@@ -1,64 +1,95 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Likra • Entrada</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>LIKRA • Entrada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      background: #020617;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
 
-    .box {
-      background: #020617;
-      border: 1px solid #334155;
-      padding: 20px;
-      border-radius: 14px;
-      width: 90%;
-      max-width: 320px;
-      text-align: center;
-    }
+        .box {
+            width: 90%;
+            max-width: 350px;
+            background: #020617;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+        }
 
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-    }
+        h1 {
+            margin: 0 0 10px;
+            letter-spacing: 2px;
+        }
 
-    input {
-      background: #020617;
-      color: #fff;
-      border: 1px solid #334155;
-    }
+        p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
 
-    button {
-      background: #2563eb;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #1e293b;
+            background: #020617;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            color: #020617;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
 
-  <div class="box">
-    <h2>LIKRA</h2>
+<div class="box">
+    <h1>LIKRA</h1>
     <p>Digite seu nome para entrar</p>
-    <input type="text" id="nomeJogador" placeholder="Seu nome">
-    <button onclick="entrarJogo()">Entrar</button>
-  </div>
 
-  <script src="script.js"></script>
+    <input type="text" id="nomeJogador" placeholder="Seu nome">
+
+    <button onclick="entrar()">Entrar</button>
+</div>
+
+<script>
+function entrar() {
+    const nome = document.getElementById("nomeJogador").value.trim();
+
+    if (nome === "") {
+        alert("Digite seu nome para continuar");
+        return;
+    }
+
+    // salva o nome do jogador
+    localStorage.setItem("jogador", nome);
+
+    // vai para o mercado
+    window.location.href = "mercado.html";
+}
+</script>
+
 </body>
 </html>
