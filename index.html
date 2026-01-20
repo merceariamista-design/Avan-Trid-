@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Avan Trid</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>🎮 Avan Trid</h1>
+    <p>Onde quem pensa cresce</p>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Perfil do Jogador</h2>
+        <p><strong>Nome:</strong> <span id="playerName">Jogador</span></p>
+        <p><strong>Saldo:</strong> <span id="saldo">1000</span> TRD</p>
+        <p><strong>Nível:</strong> <span id="nivel">1</span></p>
+    </section>
+
+    <section class="card">
+        <h2>Comprar Produto</h2>
+        <select id="produto">
+            <option value="alimento">Alimento (100 TRD)</option>
+            <option value="cosmetico">Cosmético (200 TRD)</option>
+            <option value="ferramenta">Ferramenta (300 TRD)</option>
+        </select>
+        <button onclick="comprarProduto()">Comprar</button>
+    </section>
+
+    <section class="card">
+        <h2>Estoque</h2>
+        <ul id="estoque"></ul>
+    </section>
+
+    <section class="card">
+        <h2>Vender Produto</h2>
+        <button onclick="venderProduto()">Vender item do estoque</button>
+    </section>
+
+</main>
+
+<footer>
+    <p>© Avan Trid - Simulador Econômico</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
