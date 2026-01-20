@@ -1,70 +1,86 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Mercado de Orsilan</title>
+    <meta charset="UTF-8">
+    <title>Mercado</title>
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            margin: 0;
+            padding: 20px;
+        }
 
-<style>
-body{margin:0;font-family:Arial;background:#0f172a;color:#f1f5f9}
-header{text-align:center;padding:15px;background:#020617;font-size:22px}
-.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:20px}
-.coin-card{background:#020617;padding:15px;border-radius:10px}
-.buttons{display:flex;gap:10px}
-button{flex:1;padding:8px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
-.buy{background:#16a34a;color:#fff}
-.sell{background:#dc2626;color:#fff}
-a{color:#38bdf8;display:block;text-align:center;margin:10px}
-</style>
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: #020617;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .moeda {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>🌍 Mercado de Orsilan</header>
+<div class="container">
+    <h1>📊 Mercado Financeiro</h1>
 
-<section class="market">
-    <div class="coin-card">
-        <strong>TER €</strong>
-        <div class="buttons">
-            <button class="buy" data-moeda="TER">Comprar</button>
-            <button class="sell" data-moeda="TER">Vender</button>
-        </div>
+    <div class="card">
+        <h2>💰 Saldo</h2>
+        <p>R$ <span id="saldo">10.000</span></p>
+        <button onclick="irBanco()">Ir para o Banco</button>
     </div>
 
-    <div class="coin-card">
-        <strong>FUG $</strong>
-        <div class="buttons">
-            <button class="buy" data-moeda="FUG">Comprar</button>
-            <button class="sell" data-moeda="FUG">Vender</button>
+    <div class="card">
+        <h2>🪙 Moedas</h2>
+
+        <div class="moeda">
+            <span>Bitcoin</span>
+            <button onclick="comprar('Bitcoin', 500)">Comprar</button>
+        </div>
+
+        <div class="moeda">
+            <span>Ethereum</span>
+            <button onclick="comprar('Ethereum', 300)">Comprar</button>
+        </div>
+
+        <div class="moeda">
+            <span>Orsilan</span>
+            <button onclick="comprar('Orsilan', 50)">Comprar</button>
         </div>
     </div>
+</div>
 
-    <div class="coin-card">
-        <strong>DEP £</strong>
-        <div class="buttons">
-            <button class="buy" data-moeda="DEP">Comprar</button>
-            <button class="sell" data-moeda="DEP">Vender</button>
-        </div>
-    </div>
-
-    <div class="coin-card">
-        <strong>POLO $</strong>
-        <div class="buttons">
-            <button class="buy" data-moeda="POLO">Comprar</button>
-            <button class="sell" data-moeda="POLO">Vender</button>
-        </div>
-    </div>
-
-    <div class="coin-card">
-        <strong>TIGER ¢</strong>
-        <div class="buttons">
-            <button class="buy" data-moeda="TIGER">Comprar</button>
-            <button class="sell" data-moeda="TIGER">Vender</button>
-        </div>
-    </div>
-</section>
-
-<a href="banco.html">🏦 Ir para o Banco</a>
-
-<script src="mercado.js"></script>
 </body>
 </html>
