@@ -1,77 +1,93 @@
 // ===============================
-// MERCADO COM VARIAÇÕES
+// ESTADO DO JOGO
 // ===============================
-
-// Saldo do jogador
 let saldo = 10000;
 
-// Moedas do mercado
 let moedas = {
     Bitcoin: 500,
     Ethereum: 300,
     Orsilan: 50
 };
 
-// Atualiza saldo na tela
+// carteira do jogador (quantidade)
+let carteira = {
+    Bitcoin: 0,
+    Ethereum: 0,
+    Orsilan: 0
+};
+
+// ===============================
+// ATUALIZA UI
+// ===============================
 function atualizarSaldo() {
-    if (document.getElementById("saldo")) {
-        document.getElementById("saldo").innerText = saldo.toFixed(2);
-    }
-    if (document.getElementById("saldoBanco")) {
-        document.getElementById("saldoBanco").innerText = saldo.toFixed(2);
-    }
+    const el = document.getElementById("saldo");
+    if (el) el.innerText = saldo.toFixed(2);
 }
 
-// Atualiza preços na tela
 function atualizarPrecos() {
     for (let moeda in moedas) {
-        let el = document.getElementById("preco-" + moeda);
-        if (el) {
-            el.innerText = moedas[moeda].toFixed(2);
-        }
+        const el = document.getElementById("preco-" + moeda);
+        if (el) el.innerText = moedas[moeda].toFixed(2);
     }
 }
 
-// Variação automática de preços
+function atualizarCarteira() {
+    const el = document.getElementById("carteira");
+    if (!el) return;
+
+    el.innerHTML = `
+        <div>Bitcoin: <strong>${carteira.Bitcoin}</strong></div>
+        <div>Ethereum: <strong>${carteira.Ethereum}</strong></div>
+        <div>Orsilan: <strong>${carteira.Orsilan}</strong></div>
+    `;
+}
+
+// ===============================
+// MERCADO
+// ===============================
 function variarMercado() {
     for (let moeda in moedas) {
         let variacao = (Math.random() * 0.10) - 0.05; // -5% a +5%
         moedas[moeda] += moedas[moeda] * variacao;
-        moedas[moeda] = Math.max(1, moedas[moeda]); // nunca zero
+        moedas[moeda] = Math.max(1, moedas[moeda]);
     }
     atualizarPrecos();
 }
 
-// Comprar moeda
 function comprar(moeda) {
     let preco = moedas[moeda];
     if (saldo >= preco) {
         saldo -= preco;
-        alert(`Comprou ${moeda} por R$ ${preco.toFixed(2)}`);
+        carteira[moeda]++;
         atualizarSaldo();
+        atualizarCarteira();
     } else {
-        alert("Saldo insuficiente!");
+        alert("Saldo insuficiente");
     }
 }
 
-// Vender moeda
 function vender(moeda) {
-    let preco = moedas[moeda];
-    saldo += preco;
-    alert(`Vendeu ${moeda} por R$ ${preco.toFixed(2)}`);
-    atualizarSaldo();
+    if (carteira[moeda] > 0) {
+        saldo += moedas[moeda];
+        carteira[moeda]--;
+        atualizarSaldo();
+        atualizarCarteira();
+    } else {
+        alert("Você não possui essa moeda");
+    }
 }
 
-// Navegação
+// ===============================
+// NAVEGAÇÃO
+// ===============================
 function irBanco() {
     window.location.href = "banco.html";
 }
 
-function voltarMercado() {
-    window.location.href = "mercado.html";
-}
-
-// Inicialização
+// ===============================
+// INICIALIZAÇÃO
+// ===============================
 atualizarSaldo();
 atualizarPrecos();
+atualizarCarteira();
 setInterval(variarMercado, 10000);
