@@ -26,14 +26,19 @@
 
         .card {
             background: #020617;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 16px;
+            border-radius: 14px;
             margin-bottom: 20px;
         }
 
         .saldo {
             font-size: 18px;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
+        }
+
+        .info {
+            font-size: 13px;
+            opacity: 0.7;
         }
 
         .moeda {
@@ -79,6 +84,18 @@
         .nav button {
             background: #2563eb;
             margin: 5px;
+            padding: 10px 18px;
+        }
+
+        .carteira-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .carteira-item:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
@@ -89,13 +106,17 @@
 
     <h1>📊 Mercado Financeiro (Variações)</h1>
 
+    <!-- SALDO -->
     <div class="card">
         <div class="saldo">
             💰 Saldo: R$ <strong><span id="saldo">0.00</span></strong>
         </div>
-        <small>Os preços variam automaticamente a cada 10 segundos</small>
+        <div class="info">
+            Os preços variam automaticamente a cada 10 segundos
+        </div>
     </div>
 
+    <!-- MERCADO -->
     <div class="card">
         <h2>🪙 Moedas</h2>
 
@@ -119,9 +140,15 @@
             <button class="buy" onclick="comprar('Orsilan')">Comprar</button>
             <button class="sell" onclick="vender('Orsilan')">Vender</button>
         </div>
-
     </div>
 
+    <!-- CARTEIRA -->
+    <div class="card">
+        <h2>📦 Sua Carteira</h2>
+        <div id="carteira"></div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
     <div class="nav">
         <button onclick="irBanco()">🏦 Ir para o Banco</button>
     </div>
