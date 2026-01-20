@@ -1,22 +1,20 @@
 // ===============================
-// CHAVES DE SALVAMENTO
+// SISTEMA Likra 
 // ===============================
-const STORAGE_KEY = "LIKRA_JOGO";
+const STORAGE_KEY = "LIKRA_GAME";
 
 // ===============================
-// ESTADO PADRÃO DO JOGO
+// ESTADO PADRÃO
 // ===============================
 let estadoPadrao = {
-    saldo: 10000,
-    moedas: {
-        Bitcoin: 500,
-        Ethereum: 300,
-        Orsilan: 50
+    saldoORS: 10000, // moeda base LiKra 
+    precos: {
+        BTC: 500,
+        ETH: 300
     },
     carteira: {
-        Bitcoin: 0,
-        Ethereum: 0,
-        Orsilan: 0
+        BTC: 0,
+        ETH: 0
     }
 };
 
@@ -25,16 +23,13 @@ let estadoPadrao = {
 // ===============================
 function carregarEstado() {
     const salvo = localStorage.getItem(STORAGE_KEY);
-    if (salvo) {
-        return JSON.parse(salvo);
-    }
-    return JSON.parse(JSON.stringify(estadoPadrao));
+    return salvo ? JSON.parse(salvo) : JSON.parse(JSON.stringify(estadoPadrao));
 }
 
 function salvarEstado() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        saldo,
-        moedas,
+        saldoORS,
+        precos,
         carteira
     }));
 }
@@ -43,8 +38,8 @@ function salvarEstado() {
 // ESTADO ATUAL
 // ===============================
 let estado = carregarEstado();
-let saldo = estado.saldo;
-let moedas = estado.moedas;
+let saldoK$ = estado.saldoK$;
+let precos = estado.precos;
 let carteira = estado.carteira;
 
 // ===============================
@@ -52,13 +47,13 @@ let carteira = estado.carteira;
 // ===============================
 function atualizarSaldo() {
     const el = document.getElementById("saldo");
-    if (el) el.innerText = saldo.toFixed(2);
+    if (el) el.innerText = saldoORS.toFixed(2) + " ORS";
 }
 
 function atualizarPrecos() {
-    for (let moeda in moedas) {
-        const el = document.getElementById("preco-" + moeda);
-        if (el) el.innerText = moedas[moeda].toFixed(2);
+    for (let ativo in precos) {
+        const el = document.getElementById("preco-" + ativo);
+        if (el) el.innerText = precos[ativo].toFixed(2) + " K$";
     }
 }
 
@@ -67,55 +62,78 @@ function atualizarCarteira() {
     if (!el) return;
 
     el.innerHTML = `
-        <div>Bitcoin: <strong>${carteira.Bitcoin}</strong></div>
-        <div>Ethereum: <strong>${carteira.Ethereum}</strong></div>
-        <div>Orsilan: <strong>${carteira.Orsilan}</strong></div>
+        <div>BTC: <strong>${carteira.BTC}</strong></div>
+        <div>ETH: <strong>${carteira.ETH}</strong></div>
     `;
 }
 
 // ===============================
-// MERCADO
+// MERCADO (VARIAÇÕES)
 // ===============================
 function variarMercado() {
-    for (let moeda in moedas) {
-        let variacao = (Math.random() * 0.10) - 0.05; // -5% a +5%
-        moedas[moeda] += moedas[moeda] * variacao;
-        moedas[moeda] = Math.max(1, moedas[moeda]);
+    for (let ativo in precos) {
+        let variacao = (Math.random() * 0.10) - 0.05;
+        precos[ativo] += precos[ativo] * variacao;
+        precos[ativo] = Math.max(1, precos[ativo]);
     }
     salvarEstado();
     atualizarPrecos();
 }
 
-function comprar(moeda) {
-    let preco = moedas[moeda];
-    if (saldo >= preco) {
-        saldo -= preco;
-        carteira[moeda]++;
+// ===============================
+// NEGOCIAÇÃO
+// ===============================
+function comprar(ativo) {
+    let preco = precos[ativo];
+    if (saldoK$ >= preco) {
+        saldok$ -= preco;
+        carteira[ativo]++;
         salvarEstado();
         atualizarSaldo();
         atualizarCarteira();
     } else {
-        alert("Saldo insuficiente");
+        alert("Saldo K$ insuficiente");
     }
 }
 
-function vender(moeda) {
-    if (carteira[moeda] > 0) {
-        saldo += moedas[moeda];
-        carteira[moeda]--;
+function vender(ativo) {
+    if (carteira[ativo] > 0) {
+        saldoK$ += precos[ativo];
+        carteira[ativo]--;
         salvarEstado();
         atualizarSaldo();
         atualizarCarteira();
     } else {
-        alert("Você não possui essa moeda");
+        alert("Você não possui esse ativo");
     }
 }
 
 // ===============================
-// NAVEGAÇÃO
+// RESULTADO (LUCRO / PREJUÍZO)
 // ===============================
-function irBanco() {
-    window.location.href = "banco.html";
+function calcularResultado() {
+    let investido = 0;
+    let atual = 0;
+
+    for (let ativo in carteira) {
+        investido += carteira[ativo] * estadoPadrao.precos[ativo];
+        atual += carteira[ativo] * precos[ativo];
+    }
+
+    const el = document.getElementById("resultado");
+    if (!el) return;
+
+    let diff = atual - investido;
+    let cor = diff >= 0 ? "#16a34a" : "#dc2626";
+    let sinal = diff >= 0 ? "+" : "";
+
+    el.innerHTML = `
+        <div>Investido: ${investido.toFixed(2)} K$</div>
+        <div>Valor atual: ${atual.toFixed(2)} K$</div>
+        <div style="color:${cor}; font-weight:bold">
+            Resultado: ${sinal}${diff.toFixed(2)} K$
+        </div>
+    `;
 }
 
 // ===============================
@@ -124,34 +142,6 @@ function irBanco() {
 atualizarSaldo();
 atualizarPrecos();
 atualizarCarteira();
+calcularResultado();
 setInterval(variarMercado, 10000);
-// ===============================
-// LUCRO / PREJUÍZO
-// ===============================
-function calcularResultado() {
-    let investido = 0;
-    let valorAtual = 0;
-
-    for (let moeda in carteira) {
-        investido += carteira[moeda] * estadoPadrao.moedas[moeda];
-        valorAtual += carteira[moeda] * moedas[moeda];
-    }
-
-    const el = document.getElementById("resultado");
-    if (!el) return;
-
-    let diferenca = valorAtual - investido;
-    let cor = diferenca >= 0 ? "#16a34a" : "#dc2626";
-    let sinal = diferenca >= 0 ? "+" : "";
-
-    el.innerHTML = `
-        <div>Investido: R$ ${investido.toFixed(2)}</div>
-        <div>Valor atual: R$ ${valorAtual.toFixed(2)}</div>
-        <div style="color:${cor}; font-weight:bold">
-            Resultado: ${sinal}R$ ${diferenca.toFixed(2)}
-        </div>
-    `;
-}
-
-// recalcula sempre
 setInterval(calcularResultado, 1000);
