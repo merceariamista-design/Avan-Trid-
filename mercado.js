@@ -113,3 +113,87 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+// ===============================
+// SISTEMA DE TÍTULOS
+// ===============================
+let titulos = [];
+
+function comprarTitulo(valor, juros = 0.1, tempo = 30) {
+    if (carteira.LIKRA >= valor) {
+        carteira.LIKRA -= valor;
+        fundo.LIKRA += valor;
+
+        let titulo = {
+            valor,
+            juros,
+            tempo,
+            criadoEm: Date.now(),
+            resgatado: false
+        };
+
+        titulos.push(titulo);
+        alert(`Título comprado!\nValor: K$ ${valor}\nJuros: ${juros * 100}%`);
+    } else {
+        alert("Likra insuficiente para comprar título.");
+    }
+}
+
+function resgatarTitulos() {
+    let agora = Date.now();
+    titulos.forEach(t => {
+        if (!t.resgatado && agora - t.criadoEm >= t.tempo * 1000) {
+            let lucro = t.valor * t.juros;
+            carteira.LIKRA += t.valor + lucro;
+            fundo.LIKRA -= lucro;
+            t.resgatado = true;
+        }
+    });
+}
+
+// Checa títulos automaticamente
+setInterval(resgatarTitulos, 5000);
+// ===============================
+// SISTEMA DE EMPRÉSTIMOS
+// ===============================
+let emprestimos = [];
+
+function pedirEmprestimo(valor, juros = 0.15, parcelas = 5) {
+    if (fundo.LIKRA >= valor) {
+        fundo.LIKRA -= valor;
+        carteira.LIKRA += valor;
+
+        let emprestimo = {
+            valor,
+            juros,
+            parcelas,
+            restante: valor + (valor * juros)
+        };
+
+        emprestimos.push(emprestimo);
+        alert(`Empréstimo aprovado!\nValor: K$ ${valor}`);
+    } else {
+        alert("Fundo sem liquidez para empréstimo.");
+    }
+}
+
+function pagarParcela(index) {
+    let emp = emprestimos[index];
+    if (!emp) return;
+
+    let parcelaValor = emp.restante / emp.parcelas;
+
+    if (carteira.LIKRA >= parcelaValor) {
+        carteira.LIKRA -= parcelaValor;
+        fundo.LIKRA += parcelaValor;
+
+        emp.restante -= parcelaValor;
+        emp.parcelas--;
+
+        if (emp.parcelas <= 0) {
+            emprestimos.splice(index, 1);
+            alert("Empréstimo quitado!");
+        }
+    } else {
+        alert("Likra insuficiente para pagar parcela.");
+    }
+}
