@@ -121,6 +121,9 @@ function carregarFundoAdmin() {
     `;
   }
 }
+function irPara(pagina) {
+  window.location.href = pagina;
+}
 
 // ===== CONVERTER FUNDO PARA LIKRA =====
 function converterTudoParaLikra() {
@@ -140,3 +143,4 @@ function converterTudoParaLikra() {
 
   alert("Fundo convertido para LIKRA com sucesso!");
 }
+
