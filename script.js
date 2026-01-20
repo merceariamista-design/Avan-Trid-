@@ -43,3 +43,63 @@ function atualizarSaldo(valor) {
     });
   }
 }
+// ===== MOEDAS DO JOGO =====
+const moedas = {
+  LIKRA: { simbolo: "K$", valor: 1 },
+  TER: { simbolo: "€", valor: 1.22 },
+  FUG: { simbolo: "$", valor: 2.90 },
+  DEP: { simbolo: "£", valor: 8.44 },
+  POLO: { simbolo: "$", valor: 13.87 },
+  TIGER: { simbolo: "¢", valor: 7.56 }
+};
+
+const TAXA_BANCO = 0.03; // 3%
+
+// ===== FUNDO DO BANCO (SECRETO) =====
+function carregarFundo() {
+  let fundo = localStorage.getItem("fundoBanco");
+  if (!fundo) {
+    fundo = {
+      LIKRA: 0,
+      TER: 0,
+      FUG: 0,
+      DEP: 0,
+      POLO: 0,
+      TIGER: 0
+    };
+    localStorage.setItem("fundoBanco", JSON.stringify(fundo));
+  }
+  return JSON.parse(localStorage.getItem("fundoBanco"));
+}
+
+function salvarFundo(fundo) {
+  localStorage.setItem("fundoBanco", JSON.stringify(fundo));
+}
+
+// ===== TRANSAÇÃO COM TAXA =====
+function transacao(valor, moeda = "LIKRA") {
+  let jogador = JSON.parse(localStorage.getItem("jogador"));
+  let fundo = carregarFundo();
+
+  if (!jogador) return;
+
+  const taxa = valor * TAXA_BANCO;
+  const valorLiquido = valor - taxa;
+
+  // Atualiza saldo do jogador
+  jogador.likra += converterParaLikra(valorLiquido, moeda);
+
+  // Guarda taxa no fundo
+  fundo[moeda] += taxa;
+
+  // Salva tudo
+  localStorage.setItem("jogador", JSON.stringify(jogador));
+  salvarFundo(fundo);
+
+  atualizarSaldo(jogador.likra);
+}
+
+// ===== CONVERSÃO PARA LIKRA =====
+function converterParaLikra(valor, moeda) {
+  return valor * moedas[moeda].valor;
+}
