@@ -1,37 +1,28 @@
 // ===============================
 // SISTEMA ORSILAN
 // ===============================
-const SISTEMA = "Orsilan";
+const SISTEMA = "Likra";
 const TAXA = 0.03;
 
 // Mercado de moedas
 let mercado = {
     LIKRA: 3.44,
-    TER: 1.22,
-    FUG: 2.90,
-    DEP: 8.44,
-    POLO: 13.87,
-    TIGER: 7.56
+    YBRA: 7,44,
+    Rud: 2.20,
 };
 
 // Carteira do jogador
 let carteira = {
-    LIKRA: 1000,
-    TER: 0,
-    FUG: 0,
-    DEP: 0,
-    POLO: 0,
-    TIGER: 0
+    LIKRA: 7500000000,
+    YBRA: 0,
+    Rud: 600,
 };
 
 // Fundo central
 let fundo = {
     LIKRA: 0,
-    TER: 0,
-    FUG: 0,
-    DEP: 0,
-    POLO: 0,
-    TIGER: 0
+    YBRA: 0,
+    Rud: 0,
 };
 
 // ===============================
