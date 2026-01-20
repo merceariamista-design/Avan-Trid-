@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Mercado</title>
+  <title>Likra • Jogo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -14,7 +14,7 @@
     }
 
     header {
-      padding: 16px;
+      padding: 20px;
       text-align: center;
       border-bottom: 1px solid #334155;
     }
@@ -25,55 +25,48 @@
       margin: auto;
     }
 
-    .section-title {
-      margin-top: 20px;
-      margin-bottom: 10px;
-      font-size: 18px;
-      border-left: 4px solid #22c55e;
-      padding-left: 10px;
-    }
-
     .card {
       background: #020617;
       border: 1px solid #334155;
       border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .player {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .card small {
-      opacity: 0.7;
+    .saldo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #22c55e;
     }
 
     button {
-      background: #2563eb;
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 10px;
       border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      color: #fff;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      background: #2563eb;
+      color: #fff;
     }
 
-    .moeda {
-      background: #020617;
-      border: 1px solid #334155;
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    button.secondary {
+      background: #22c55e;
     }
 
     footer {
       text-align: center;
+      padding: 12px;
       font-size: 12px;
       opacity: 0.5;
-      padding: 10px;
     }
   </style>
 </head>
@@ -81,78 +74,36 @@
 <body>
 
 <header>
-  <h1>🛒 Mercado</h1>
+  <h1>LIKRA</h1>
+  <small>Simulador Econômico</small>
 </header>
 
 <div class="container">
 
-  <div class="section-title">Produtos</div>
-
-  <div class="card">
+  <div class="card player">
     <div>
-      <strong>Alimentos</strong><br>
-      <small>Itens básicos</small>
+      <small>Jogador</small><br>
+      <strong id="nomeJogadorTela">---</strong>
     </div>
-    <button>Entrar</button>
+    <div class="saldo" id="saldoLikra">K$ 0,00</div>
   </div>
 
   <div class="card">
-    <div>
-      <strong>Eletrônicos</strong><br>
-      <small>Itens tecnológicos</small>
-    </div>
-    <button>Entrar</button>
+    <button onclick="irPara('mercado.html')">Mercado</button>
+    <button class="secondary" onclick="irPara('banco.html')">Banco</button>
+    <button onclick="irPara('investimentos.html')">Investimentos</button>
   </div>
-
-  <div class="card">
-    <div>
-      <strong>Imóveis</strong><br>
-      <small>Terrenos e casas</small>
-    </div>
-    <button>Entrar</button>
-  </div>
-
-  <div class="section-title">Moedas</div>
-
-  <div class="moeda">
-    <div>LIKRA (K$)</div>
-    <strong>Base</strong>
-  </div>
-
-  <div class="moeda">
-    <div>TER€</div>
-    <strong>1,22</strong>
-  </div>
-
-  <div class="moeda">
-    <div>FUG$</div>
-    <strong>2,90</strong>
-  </div>
-
-  <div class="moeda">
-    <div>DEP£</div>
-    <strong>8,44</strong>
-  </div>
-
-  <div class="moeda">
-    <div>POLO$</div>
-    <strong>13,87</strong>
-  </div>
-
-  <div class="moeda">
-    <div>TIGER¢</div>
-    <strong>7,56</strong>
-  </div>
-
-  <button onclick="history.back()" style="margin-top:20px;width:100%;">
-    Voltar
-  </button>
 
 </div>
 
 <footer>
-  Mercado • Likra
+  Likra © 2026
 </footer>
+
+<script src="script.js"></script>
+<script>
+  carregarJogador();
+</script>
 
 </body>
 </html>
