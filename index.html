@@ -1,268 +1,98 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jogo do Capital – Banco e Títulos</title>
-
+<title>Likra Economy Game</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #f8fafc;
-  margin: 0;
-}
-
-header {
-  background: #020617;
-  padding: 15px;
-  text-align: center;
-}
-
-section {
-  padding: 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.card {
-  background: #020617;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 10px rgba(0,0,0,.4);
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 15px;
-}
-
-button {
-  background: #22c55e;
-  color: #022c22;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button:hover {
-  background: #16a34a;
-}
-
-input {
-  padding: 8px;
-  width: 100%;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: none;
-}
-
-.log {
-  max-height: 160px;
-  overflow-y: auto;
-  font-size: 14px;
-}
+body { font-family: Arial; background:#111; color:#fff; padding:20px }
+.card { background:#222; padding:15px; border-radius:8px; margin-bottom:15px }
+button { padding:10px; margin-top:10px }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🏦📜 Jogo do Capital</h1>
-  <p>Banco próprio e emissão de títulos</p>
-</header>
+<h1>🎮 Likra Economy</h1>
 
-<section>
-
-<div class="stats">
-  <div class="card">
-    <h3>💰 Caixa</h3>
-    <p>R$ <span id="dinheiro">1000</span></p>
-  </div>
-
-  <div class="card">
-    <h3>🏦 Banco</h3>
-    <p>Saldo: R$ <span id="saldoBanco">0</span></p>
-  </div>
-
-  <div class="card">
-    <h3>📜 Dívida (Títulos)</h3>
-    <p>R$ <span id="divida">0</span></p>
-    <p>Juros: 3% / ciclo</p>
-  </div>
-
-  <div class="card">
-    <h3>📈 Renda</h3>
-    <p>R$ <span id="renda">0</span></p>
-  </div>
-</div>
-
-<!-- BANCO -->
 <div class="card">
-  <h3>🏦 Banco</h3>
-  <input type="number" id="valorBanco" placeholder="Valor">
-  <button onclick="depositar()">Depositar</button>
-  <button onclick="sacar()">Sacar</button>
+<h2>Carteira do Jogador</h2>
+<div id="carteira"></div>
 </div>
 
-<!-- TITULOS -->
 <div class="card">
-  <h3>📜 Emissão de Títulos</h3>
-  <input type="number" id="valorTitulo" placeholder="Valor do título">
-  <button onclick="emitirTitulo()">Emitir Título</button>
-  <button onclick="pagarTitulo()">Pagar Dívida</button>
-  <p style="font-size:13px;">Títulos aumentam o caixa, mas geram juros.</p>
+<h2>Converter para Likra (K$)</h2>
+<select id="moeda">
+  <option value="TER">TER€</option>
+  <option value="FUG">FUG$</option>
+  <option value="DEP">DEP£</option>
+  <option value="POLO">POLO$</option>
+  <option value="TIGER">TIGER¢</option>
+</select>
+<input type="number" id="valor" placeholder="Valor">
+<button onclick="converter()">Converter</button>
 </div>
-
-<!-- EMPRESAS -->
-<div class="card">
-  <h3>🏪 Comprar Empresa</h3>
-  <p>Custo: R$ 500 | Renda: +R$ 50</p>
-  <button onclick="comprarEmpresa()">Comprar Empresa</button>
-</div>
-
-<!-- IMOVEIS -->
-<div class="card">
-  <h3>🏠 Comprar Imóvel</h3>
-  <p>Custo: R$ 1000 | Renda: +R$ 120</p>
-  <button onclick="comprarImovel()">Comprar Imóvel</button>
-</div>
-
-<!-- LOG -->
-<div class="card">
-  <h3>🧾 Histórico</h3>
-  <div class="log" id="log"></div>
-</div>
-
-</section>
 
 <script>
-let dinheiro = 1000;
-let saldoBanco = 0;
-let renda = 0;
-let divida = 0;
+// COTAÇÕES
+let cotacao = {
+  LIKRA: 3.44,
+  TER: 1.22,
+  FUG: 2.90,
+  DEP: 8.44,
+  POLO: 13.87,
+  TIGER: 7.56
+};
 
-// carregar save
-if (localStorage.getItem("save2")) {
-  let s = JSON.parse(localStorage.getItem("save2"));
-  dinheiro = s.dinheiro;
-  saldoBanco = s.saldoBanco;
-  renda = s.renda;
-  divida = s.divida;
-}
+// CARTEIRA
+let carteira = {
+  LIKRA: 100,
+  TER: 50,
+  FUG: 20,
+  DEP: 10,
+  POLO: 5,
+  TIGER: 8
+};
 
-function salvar() {
-  localStorage.setItem("save2", JSON.stringify({ dinheiro, saldoBanco, renda, divida }));
-}
+// FUNDO CENTRAL (PRIVADO)
+let fundo = {
+  LIKRA: 0,
+  TER: 0,
+  FUG: 0,
+  DEP: 0,
+  POLO: 0,
+  TIGER: 0
+};
 
-function atualizar() {
-  document.getElementById("dinheiro").innerText = dinheiro.toFixed(2);
-  document.getElementById("saldoBanco").innerText = saldoBanco.toFixed(2);
-  document.getElementById("renda").innerText = renda.toFixed(2);
-  document.getElementById("divida").innerText = divida.toFixed(2);
-  salvar();
-}
-
-function log(msg) {
-  let l = document.getElementById("log");
-  l.innerHTML = msg + "<br>" + l.innerHTML;
-}
-
-function depositar() {
-  let v = Number(valorBanco.value);
-  if (v > 0 && v <= dinheiro) {
-    dinheiro -= v;
-    saldoBanco += v;
-    log("💳 Depósito R$ " + v);
-    atualizar();
+function mostrarCarteira() {
+  let html = "";
+  for (let m in carteira) {
+    html += `${m}: ${carteira[m]}<br>`;
   }
+  document.getElementById("carteira").innerHTML = html;
 }
 
-function sacar() {
-  let v = Number(valorBanco.value);
-  if (v > 0 && v <= saldoBanco) {
-    saldoBanco -= v;
-    dinheiro += v;
-    log("🏧 Saque R$ " + v);
-    atualizar();
+function converter() {
+  let moeda = document.getElementById("moeda").value;
+  let valor = parseFloat(document.getElementById("valor").value);
+
+  if (valor > carteira[moeda]) {
+    alert("Saldo insuficiente");
+    return;
   }
+
+  let emLikra = valor * cotacao[moeda];
+  let taxa = emLikra * 0.03;
+  let liquido = emLikra - taxa;
+
+  carteira[moeda] -= valor;
+  carteira.LIKRA += liquido;
+
+  fundo[moeda] += valor * 0.03;
+
+  mostrarCarteira();
 }
 
-function emitirTitulo() {
-  let v = Number(valorTitulo.value);
-  if (v > 0) {
-    dinheiro += v;
-    divida += v;
-    log("📜 Título emitido: R$ " + v);
-    atualizar();
-  }
-}
-
-function pagarTitulo() {
-  let v = Number(valorTitulo.value);
-  if (v > 0 && v <= dinheiro && v <= divida) {
-    dinheiro -= v;
-    divida -= v;
-    log("📉 Dívida paga: R$ " + v);
-    atualizar();
-  }
-}
-
-function comprarEmpresa() {
-  if (dinheiro >= 500) {
-    dinheiro -= 500;
-    renda += 50;
-    log("🏪 Empresa comprada");
-    atualizar();
-  }
-}
-
-function comprarImovel() {
-  if (dinheiro >= 1000) {
-    dinheiro -= 1000;
-    renda += 120;
-    log("🏠 Imóvel comprado");
-    atualizar();
-  }
-}
-
-// JUROS DO BANCO
-setInterval(() => {
-  if (saldoBanco > 0) {
-    let j = saldoBanco * 0.02;
-    saldoBanco += j;
-    log("🏦 Juros banco: R$ " + j.toFixed(2));
-    atualizar();
-  }
-}, 5000);
-
-// JUROS DA DÍVIDA (TÍTULOS)
-setInterval(() => {
-  if (divida > 0) {
-    let j = divida * 0.03;
-    dinheiro -= j;
-    log("📜 Juros da dívida pagos: R$ " + j.toFixed(2));
-
-    if (dinheiro < 0) {
-      alert("💥 FALÊNCIA! Dívida impagável.");
-      localStorage.clear();
-      location.reload();
-    }
-    atualizar();
-  }
-}, 6000);
-
-// RENDA
-setInterval(() => {
-  dinheiro += renda;
-  atualizar();
-}, 3000);
-
-atualizar();
+mostrarCarteira();
 </script>
 
 </body>
