@@ -2,8 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Mercado</title>
-    <script defer src="script.js"></script>
+    <title>Mercado Financeiro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,6 +16,7 @@
 
         h1 {
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .container {
@@ -25,67 +27,107 @@
         .card {
             background: #020617;
             padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
 
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #2563eb;
-            color: white;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: #1d4ed8;
+        .saldo {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
         .moeda {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto;
+            gap: 10px;
             align-items: center;
-            margin-top: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .moeda:last-child {
+            border-bottom: none;
+        }
+
+        .preco {
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+        }
+
+        .buy {
+            background: #16a34a;
+        }
+
+        .sell {
+            background: #dc2626;
+        }
+
+        .nav {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .nav button {
+            background: #2563eb;
+            margin: 5px;
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
-    <h1>📊 Mercado Financeiro</h1>
+
+    <h1>📊 Mercado Financeiro (Variações)</h1>
 
     <div class="card">
-        <h2>💰 Saldo</h2>
-        <p>R$ <span id="saldo">10.000</span></p>
-        <button onclick="irBanco()">Ir para o Banco</button>
+        <div class="saldo">
+            💰 Saldo: R$ <strong><span id="saldo">0.00</span></strong>
+        </div>
+        <small>Os preços variam automaticamente a cada 10 segundos</small>
     </div>
 
     <div class="card">
-    <h2>📊 Mercado em Tempo Real</h2>
+        <h2>🪙 Moedas</h2>
 
-    <div class="moeda">
-        <span>Bitcoin</span>
-        <strong>R$ <span id="preco-Bitcoin">0</span></strong>
-        <button onclick="comprar('Bitcoin')">Comprar</button>
-        <button onclick="vender('Bitcoin')">Vender</button>
+        <div class="moeda">
+            <span>Bitcoin</span>
+            <span class="preco">R$ <span id="preco-Bitcoin">0.00</span></span>
+            <button class="buy" onclick="comprar('Bitcoin')">Comprar</button>
+            <button class="sell" onclick="vender('Bitcoin')">Vender</button>
+        </div>
+
+        <div class="moeda">
+            <span>Ethereum</span>
+            <span class="preco">R$ <span id="preco-Ethereum">0.00</span></span>
+            <button class="buy" onclick="comprar('Ethereum')">Comprar</button>
+            <button class="sell" onclick="vender('Ethereum')">Vender</button>
+        </div>
+
+        <div class="moeda">
+            <span>Orsilan</span>
+            <span class="preco">R$ <span id="preco-Orsilan">0.00</span></span>
+            <button class="buy" onclick="comprar('Orsilan')">Comprar</button>
+            <button class="sell" onclick="vender('Orsilan')">Vender</button>
+        </div>
+
     </div>
 
-    <div class="moeda">
-        <span>Ethereum</span>
-        <strong>R$ <span id="preco-Ethereum">0</span></strong>
-        <button onclick="comprar('Ethereum')">Comprar</button>
-        <button onclick="vender('Ethereum')">Vender</button>
+    <div class="nav">
+        <button onclick="irBanco()">🏦 Ir para o Banco</button>
     </div>
 
-    <div class="moeda">
-        <span>Orsilan</span>
-        <strong>R$ <span id="preco-Orsilan">0</span></strong>
-        <button onclick="comprar('Orsilan')">Comprar</button>
-        <button onclick="vender('Orsilan')">Vender</button>
-    </div>
-    </div>
+</div>
 
+<script src="script.js"></script>
 </body>
 </html>
