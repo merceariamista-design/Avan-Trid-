@@ -180,3 +180,36 @@ function resetarJogo() {
 // ================================
 carregarJogo();
 setInterval(gerarRendaPassiva, 10000);
+// COTAÇÕES
+cotacao = {
+  LIKRA: 3.44,
+  TER: 1.22,
+  FUG: 2.90,
+  DEP: 8.44,
+  POLO: 13.87,
+  TIGER: 7.56
+}
+
+// CARTEIRA DO JOGADOR
+jogador = {
+  saldo: {
+    LIKRA: 100,
+    TER: 50,
+    FUG: 30,
+    DEP: 20,
+    POLO: 10,
+    TIGER: 15
+  },
+  emprestimos: [],
+  titulos: []
+}
+
+// FUNDO CENTRAL (BANCO)
+fundo = {
+  LIKRA: 0,
+  TER: 0,
+  FUG: 0,
+  DEP: 0,
+  POLO: 0,
+  TIGER: 0
+}
