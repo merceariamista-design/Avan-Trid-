@@ -11,7 +11,7 @@ function entrarJogo() {
   window.location.href = "game.html";
 }
 
-// ===== TELA DO JOGO =====
+// ===== CARREGAR JOGADOR NO JOGO =====
 function carregarJogador() {
   const nome = localStorage.getItem("jogadorNome") || "Jogador";
 
