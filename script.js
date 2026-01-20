@@ -1,3 +1,6 @@
+// ===== CONFIGURAÇÕES INICIAIS =====
+const SALDO_INICIAL = 1000; // K$ 1.000 iniciais
+
 // ===== ENTRADA DO JOGO =====
 function entrarJogo() {
   const nome = document.getElementById("nomeJogador").value.trim();
@@ -7,16 +10,36 @@ function entrarJogo() {
     return;
   }
 
-  localStorage.setItem("jogadorNome", nome);
+  const jogador = {
+    nome: nome,
+    likra: SALDO_INICIAL
+  };
+
+  localStorage.setItem("jogador", JSON.stringify(jogador));
   window.location.href = "game.html";
 }
 
-// ===== CARREGAR JOGADOR NO JOGO =====
+// ===== CARREGAR JOGADOR =====
 function carregarJogador() {
-  const nome = localStorage.getItem("jogadorNome") || "Jogador";
+  const dados = localStorage.getItem("jogador");
+  if (!dados) return;
 
-  const el = document.getElementById("nomeJogadorTela");
-  if (el) {
-    el.innerText = nome;
+  const jogador = JSON.parse(dados);
+
+  // Nome
+  const nomeEl = document.getElementById("nomeJogadorTela");
+  if (nomeEl) nomeEl.innerText = jogador.nome;
+
+  // Saldo
+  atualizarSaldo(jogador.likra);
+}
+
+// ===== ATUALIZAR SALDO NA TELA =====
+function atualizarSaldo(valor) {
+  const saldoEl = document.getElementById("saldoLikra");
+  if (saldoEl) {
+    saldoEl.innerText = "K$ " + valor.toLocaleString("pt-BR", {
+      minimumFractionDigits: 2
+    });
   }
 }
