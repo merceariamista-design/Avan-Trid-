@@ -2,179 +2,54 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Banco Central – Likra</title>
+<title>Banco Central de Orsilan</title>
 
 <style>
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#020617;
-    color:#f1f5f9;
-}
-
-header{
-    text-align:center;
-    padding:20px;
-    font-size:22px;
-    font-weight:bold;
-    background:#020617;
-    border-bottom:1px solid #1e293b;
-}
-
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:20px;
-}
-
-.card{
-    background:#0f172a;
-    padding:20px;
-    border-radius:10px;
-    margin-bottom:20px;
-    box-shadow:0 0 10px rgba(0,0,0,.5);
-}
-
-.card h2{
-    margin-top:0;
-    color:#38bdf8;
-}
-
-input{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    border-radius:6px;
-    border:none;
-    outline:none;
-}
-
-button{
-    display:block;
-    margin-top:10px;
-    padding:12px;
-    width:100%;
-    border:none;
-    border-radius:6px;
-    font-weight:bold;
-    font-size:15px;
-    cursor:pointer;
-}
-
-.buy{
-    background:#16a34a;
-    color:#fff;
-}
-
-.loan{
-    background:#f59e0b;
-    color:#020617;
-}
-
-.pay{
-    background:#dc2626;
-    color:#fff;
-    margin-top:5px;
-}
-
-.list{
-    font-size:14px;
-    margin-top:10px;
-    opacity:.95;
-}
-
-a{
-    color:#38bdf8;
-    text-decoration:none;
-    display:block;
-    text-align:center;
-    margin-top:20px;
-}
-    .saldo{
-    text-align:center;
-    padding:10px;
-    background:#020617;
-    border-bottom:1px solid #1e293b;
-    font-size:16px;
-    }
+body{margin:0;font-family:Arial;background:#020617;color:#f1f5f9}
+header{text-align:center;padding:20px;font-size:22px}
+.saldo{text-align:center;padding:10px;border-bottom:1px solid #1e293b}
+.container{max-width:900px;margin:auto;padding:20px}
+.card{background:#0f172a;padding:20px;border-radius:10px;margin-bottom:20px}
+input,button{width:100%;padding:10px;margin-top:10px;border:none;border-radius:6px}
+.buy{background:#16a34a;color:#fff}
+.loan{background:#f59e0b;color:#020617}
+.pay{background:#dc2626;color:#fff}
+.moeda{display:flex;justify-content:space-between;border-bottom:1px solid #1e293b;padding:5px 0}
+a{color:#38bdf8;text-align:center;display:block}
 </style>
 </head>
 
 <body>
 
-<header>
-    <div class="saldo">
-    💰 Saldo atual: <strong id="saldoLikra">K$ 0.00</strong>
-    </div>
-🏦 Banco Central Likra
-</header>
+<header>🏦 Banco Central de Orsilan</header>
+
+<div class="saldo">
+Saldo: <strong id="saldoLikra">K$ 0.00</strong>
+</div>
 
 <div class="container">
 
-    <!-- TÍTULOS -->
-    <div class="card">
-        <h2>👛 Carteira de Orsilan</h2>
-        <p>Sistema monetário oficial de Orsilan</p>
-        <input type="number" id="valorTitulo" placeholder="Valor em Likra (K$)">
-        <button class="buy" onclick="comprarTituloUI()">Comprar Título</button>
-        <div class="list" id="listaTitulos"></div>
-    </div>
+<div class="card">
+<h2>👛 Carteira de Orsilan</h2>
+<div id="carteiraJogador"></div>
+</div>
 
-    <!-- EMPRÉSTIMOS -->
-    <div class="card">
-        <h2>💰 Empréstimos</h2>
-        <p>Pegue Likra emprestado e pague com juros.</p>
-        <input type="number" id="valorEmprestimo" placeholder="Valor do empréstimo">
-        <button class="loan" onclick="pedirEmprestimoUI()">Pedir Empréstimo</button>
-        <div class="list" id="listaEmprestimos"></div>
-    </div>
+<div class="card">
+<h2>📜 Títulos</h2>
+<input type="number" id="valorTitulo" placeholder="Valor em Likra">
+<button class="buy" onclick="comprarTitulo(document.getElementById('valorTitulo').value)">Comprar Título</button>
+</div>
 
-    <a href="mercado.html">← Voltar ao Mercado</a>
+<div class="card">
+<h2>💰 Empréstimos</h2>
+<input type="number" id="valorEmprestimo" placeholder="Valor do empréstimo">
+<button class="loan" onclick="pedirEmprestimo(document.getElementById('valorEmprestimo').value)">Pedir Empréstimo</button>
+</div>
+
+<a href="mercado.html">← Voltar ao Mercado</a>
 
 </div>
 
 <script src="mercado.js"></script>
-
-<script>
-// ===============================
-// INTERFACE VISUAL DO BANCO
-// ===============================
-function comprarTituloUI(){
-    let valor = Number(document.getElementById("valorTitulo").value);
-    if(valor > 0){
-        comprarTitulo(valor);
-        atualizarListas();
-    }
-}
-
-function pedirEmprestimoUI(){
-    let valor = Number(document.getElementById("valorEmprestimo").value);
-    if(valor > 0){
-        pedirEmprestimo(valor);
-        atualizarListas();
-    }
-}
-
-function atualizarListas(){
-    let tit = document.getElementById("listaTitulos");
-    let emp = document.getElementById("listaEmprestimos");
-
-    tit.innerHTML = "<strong>Títulos ativos:</strong><br>";
-    titulos.forEach((t,i)=>{
-        tit.innerHTML += `#${i+1} - K$ ${t.valor} | Juros ${(t.juros*100)}%<br>`;
-    });
-
-    emp.innerHTML = "<strong>Empréstimos ativos:</strong><br>";
-    emprestimos.forEach((e,i)=>{
-        emp.innerHTML += `
-        #${i+1} - Restante K$ ${e.restante.toFixed(2)}<br>
-        <button class="pay" onclick="pagarParcela(${i})">Pagar parcela</button>
-        `;
-    });
-}
-
-setInterval(atualizarListas, 3000);
-</script>
-
 </body>
 </html>
