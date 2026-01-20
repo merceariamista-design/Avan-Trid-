@@ -1,31 +1,65 @@
+// ================================
+// AVAN TRID - SCRIPT COMPLETO
+// ================================
+
+// ----- DADOS DO JOGADOR -----
 let saldo = 1000;
 let nivel = 1;
-let estoque = [];
 
+// ----- SISTEMAS -----
+let estoque = [];
+let acoes = [];
+let imoveis = 0;
+
+// ----- PREÇOS -----
 const precos = {
     alimento: 100,
     cosmetico: 200,
     ferramenta: 300
 };
 
+const precoAcoes = {
+    avanCorp: 100,
+    tridTech: 200
+};
 
+// ================================
+// SALVAR E CARREGAR JOGO
+// ================================
+function salvarJogo() {
+    const dados = {
+        saldo,
+        nivel,
+        estoque,
+        acoes,
+        imoveis
+    };
+    localStorage.setItem("avanTridSave", JSON.stringify(dados));
+}
 
-function comprarProduto() {
-    const produto = document.getElementById("produto").value;
-    const preco = precos[produto];
+function carregarJogo() {
+    const save = localStorage.getItem("avanTridSave");
 
-    if (saldo >= preco) {
-        saldo -= preco;
-        estoque.push(produto);
-        atualizarTela();
-        alert("Produto comprado com sucesso!");
-    } else {
-        alert("Saldo insuficiente!");
+    if (save) {
+        const dados = JSON.parse(save);
+        saldo = dados.saldo ?? 1000;
+        nivel = dados.nivel ?? 1;
+        estoque = dados.estoque ?? [];
+        acoes = dados.acoes ?? [];
+        imoveis = dados.imoveis ?? 0;
     }
-    function atualizarTela() {
+
+    atualizarTela();
+}
+
+// ================================
+// ATUALIZAR INTERFACE
+// ================================
+function atualizarTela() {
     document.getElementById("saldo").innerText = saldo;
     document.getElementById("nivel").innerText = nivel;
 
+    // Estoque
     const listaEstoque = document.getElementById("estoque");
     listaEstoque.innerHTML = "";
     estoque.forEach(item => {
@@ -34,15 +68,34 @@ function comprarProduto() {
         listaEstoque.appendChild(li);
     });
 
+    // Ações
     const listaAcoes = document.getElementById("acoes");
     listaAcoes.innerHTML = "";
-    acoes.forEach(a => {
+    acoes.forEach(acao => {
         const li = document.createElement("li");
-        li.innerText = a;
+        li.innerText = acao;
         listaAcoes.appendChild(li);
     });
 
+    // Imóveis
     document.getElementById("imoveis").innerText = imoveis;
+}
+
+// ================================
+// COMPRA E VENDA DE PRODUTOS
+// ================================
+function comprarProduto() {
+    const produto = document.getElementById("produto").value;
+    const preco = precos[produto];
+
+    if (saldo >= preco) {
+        saldo -= preco;
+        estoque.push(produto);
+        salvarJogo();
+        atualizarTela();
+        alert("Produto comprado com sucesso!");
+    } else {
+        alert("Saldo insuficiente!");
     }
 }
 
@@ -54,7 +107,6 @@ function venderProduto() {
 
     const produto = estoque.shift();
     const lucro = Math.floor(precos[produto] * 1.3);
-
     saldo += lucro;
 
     if (saldo >= nivel * 2000) {
@@ -62,15 +114,13 @@ function venderProduto() {
         alert("🎉 Você subiu de nível!");
     }
 
+    salvarJogo();
     atualizarTela();
 }
-let acoes = [];
-let imoveis = 0;
 
-const precoAcoes = {
-    avanCorp: 100,
-    tridTech: 200
-};
+// ================================
+// SISTEMA DE AÇÕES
+// ================================
 function comprarAcao() {
     const acao = document.getElementById("acao").value;
     const preco = precoAcoes[acao];
@@ -78,29 +128,55 @@ function comprarAcao() {
     if (saldo >= preco) {
         saldo -= preco;
         acoes.push(acao);
+        salvarJogo();
         atualizarTela();
         alert("Ação comprada!");
     } else {
         alert("Saldo insuficiente!");
     }
 }
+
+// ================================
+// SISTEMA DE IMÓVEIS
+// ================================
 function comprarImovel() {
     const preco = 500;
 
     if (saldo >= preco) {
         saldo -= preco;
         imoveis++;
+        salvarJogo();
         atualizarTela();
         alert("Imóvel adquirido!");
     } else {
         alert("Saldo insuficiente!");
     }
 }
+
+// ================================
+// RENDA PASSIVA
+// ================================
 function gerarRendaPassiva() {
-    let dividendos = acoes.length * 10; // 10 TRD por ação
-    let aluguel = imoveis * 25; // 25 TRD por imóvel
+    const dividendos = acoes.length * 10; // por ação
+    const aluguel = imoveis * 25;         // por imóvel
 
     saldo += dividendos + aluguel;
+    salvarJogo();
     atualizarTela();
 }
+
+// ================================
+// RESET DO JOGO (OPCIONAL)
+// ================================
+function resetarJogo() {
+    if (confirm("Deseja apagar todo o progresso do Avan Trid?")) {
+        localStorage.removeItem("avanTridSave");
+        location.reload();
+    }
+}
+
+// ================================
+// INICIALIZAÇÃO
+// ================================
+carregarJogo();
 setInterval(gerarRendaPassiva, 10000);
