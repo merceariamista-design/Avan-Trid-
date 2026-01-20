@@ -44,3 +44,39 @@ footer {
     padding: 10px;
     background: #e5e7eb;
 }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #fff;
+    padding: 20px;
+  }
+
+  .banco {
+    margin-top: 30px;
+    background: #020617;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .card {
+    background: #020617;
+    border: 1px solid #334155;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+  }
+
+  button {
+    background: #22c55e;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.85;
+  }
+</style>
