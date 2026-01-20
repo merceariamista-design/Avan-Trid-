@@ -7,14 +7,14 @@ const STORAGE_KEY = "LIKRA_GAME";
 // ESTADO PADRÃO
 // ===============================
 let estadoPadrao = {
-    saldoORS: 10000, // moeda base LiKra 
+    saldoLikra: 10000, // moeda base LiKra 
     precos: {
-        BTC: 500,
-        ETH: 300
+        K$: 3,44
+        YBRA: 7,36
     },
     carteira: {
-        BTC: 0,
-        ETH: 0
+    K$: 0,
+       YBRA: 0
     }
 };
 
@@ -47,7 +47,7 @@ let carteira = estado.carteira;
 // ===============================
 function atualizarSaldo() {
     const el = document.getElementById("saldo");
-    if (el) el.innerText = saldoORS.toFixed(2) + " ORS";
+    if (el) el.innerText = saldoK$.toFixed(2) + " K$";
 }
 
 function atualizarPrecos() {
@@ -72,7 +72,7 @@ function atualizarCarteira() {
 // ===============================
 function variarMercado() {
     for (let ativo in precos) {
-        let variacao = (Math.random() * 0.10) - 0.05;
+        let variacao = (Math.random() * 0.05) - 0.02;
         precos[ativo] += precos[ativo] * variacao;
         precos[ativo] = Math.max(1, precos[ativo]);
     }
