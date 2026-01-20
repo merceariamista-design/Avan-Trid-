@@ -103,3 +103,40 @@ function transacao(valor, moeda = "LIKRA") {
 function converterParaLikra(valor, moeda) {
   return valor * moedas[moeda].valor;
 }
+// ===== VISUAL ADMIN DO FUNDO =====
+function carregarFundoAdmin() {
+  const fundo = carregarFundo();
+  const div = document.getElementById("fundoBanco");
+
+  if (!div) return;
+
+  div.innerHTML = "";
+
+  for (let moeda in fundo) {
+    div.innerHTML += `
+      <div class="card">
+        <strong>${moeda}</strong><br>
+        Saldo: ${fundo[moeda].toFixed(2)}
+      </div>
+    `;
+  }
+}
+
+// ===== CONVERTER FUNDO PARA LIKRA =====
+function converterTudoParaLikra() {
+  let fundo = carregarFundo();
+  let totalLikra = 0;
+
+  for (let moeda in fundo) {
+    totalLikra += converterParaLikra(fundo[moeda], moeda);
+    fundo[moeda] = 0;
+  }
+
+  // Guarda tudo em LIKRA
+  fundo.LIKRA += totalLikra;
+
+  salvarFundo(fundo);
+  carregarFundoAdmin();
+
+  alert("Fundo convertido para LIKRA com sucesso!");
+}
