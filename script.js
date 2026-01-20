@@ -213,3 +213,19 @@ fundo = {
   POLO: 0,
   TIGER: 0
 }
+valorConvertido = valor * cotacao
+taxa = valorConvertido * 3%
+liquido = valorConvertido - taxa
+function converterMoeda(jogador, moeda, valor) {
+  if (valor > jogador.saldo[moeda]) return false;
+
+  let bruto = valor * cotacao[moeda];
+  let taxa = bruto * 0.03;
+  let liquido = bruto - taxa;
+
+  jogador.saldo[moeda] -= valor;
+  jogador.saldo.LIKRA += liquido;
+
+  fundo[moeda] += valor * 0.03;
+  return true;
+}
