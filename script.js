@@ -229,3 +229,48 @@ function converterMoeda(jogador, moeda, valor) {
   fundo[moeda] += valor * 0.03;
   return true;
 }
+function registrarTaxa(moeda, valorTaxa) {
+  fundo[moeda] += valorTaxa;
+}
+function converterFundoParaLikra(moeda, valor) {
+  if (valor > fundo[moeda]) return false;
+
+  let emLikra = valor * cotacao[moeda];
+
+  fundo[moeda] -= valor;
+  fundo.LIKRA += emLikra;
+  return true;
+}
+function emprestar(jogador, valor, juros, prazo) {
+  if (fundo.LIKRA < valor) return false;
+
+  fundo.LIKRA -= valor;
+  jogador.saldo.LIKRA += valor;
+
+  jogador.emprestimos.push({
+    valor,
+    juros,
+    prazo,
+    restante: valor * (1 + juros)
+  });
+}
+function pagarEmprestimo(jogador, indice) {
+  let emp = jogador.emprestimos[indice];
+  if (jogador.saldo.LIKRA < emp.restante) return false;
+
+  jogador.saldo.LIKRA -= emp.restante;
+  fundo.LIKRA += emp.restante;
+
+  jogador.emprestimos.splice(indice, 1);
+}
+function comprarTitulo(jogador, valor, rendimento) {
+  if (jogador.saldo.LIKRA < valor) return false;
+
+  jogador.saldo.LIKRA -= valor;
+  fundo.LIKRA += valor;
+
+  jogador.titulos.push({
+    valor,
+    rendimento
+  });
+}
