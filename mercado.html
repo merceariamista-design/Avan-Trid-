@@ -63,24 +63,29 @@
     </div>
 
     <div class="card">
-        <h2>🪙 Moedas</h2>
+    <h2>📊 Mercado em Tempo Real</h2>
 
-        <div class="moeda">
-            <span>Bitcoin</span>
-            <button onclick="comprar('Bitcoin', 500)">Comprar</button>
-        </div>
-
-        <div class="moeda">
-            <span>Ethereum</span>
-            <button onclick="comprar('Ethereum', 300)">Comprar</button>
-        </div>
-
-        <div class="moeda">
-            <span>Orsilan</span>
-            <button onclick="comprar('Orsilan', 50)">Comprar</button>
-        </div>
+    <div class="moeda">
+        <span>Bitcoin</span>
+        <strong>R$ <span id="preco-Bitcoin">0</span></strong>
+        <button onclick="comprar('Bitcoin')">Comprar</button>
+        <button onclick="vender('Bitcoin')">Vender</button>
     </div>
-</div>
+
+    <div class="moeda">
+        <span>Ethereum</span>
+        <strong>R$ <span id="preco-Ethereum">0</span></strong>
+        <button onclick="comprar('Ethereum')">Comprar</button>
+        <button onclick="vender('Ethereum')">Vender</button>
+    </div>
+
+    <div class="moeda">
+        <span>Orsilan</span>
+        <strong>R$ <span id="preco-Orsilan">0</span></strong>
+        <button onclick="comprar('Orsilan')">Comprar</button>
+        <button onclick="vender('Orsilan')">Vender</button>
+    </div>
+    </div>
 
 </body>
 </html>
