@@ -7,10 +7,10 @@ const STORAGE_KEY = "LIKRA_GAME";
 // ESTADO PADRÃO
 // ===============================
 let estadoPadrao = {
-    saldoLikra: 10000, // moeda base LiKra 
+    saldoLikra: 75.000.000.000.0, // moeda base LiKra 
     precos: {
         K$: 3,44
-        YBRA: 7,36
+        YBRA: 7,44
     },
     carteira: {
     K$: 0,
