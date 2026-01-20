@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Likra Economy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #050505, #0f1b14);
+  color: #e6fff2;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: rgba(0,0,0,0.75);
+  padding: 30px;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 0 45px rgba(0,255,136,0.25);
+}
+
+.logo {
+  font-size: 34px;
+  font-weight: bold;
+  color: #00ff88;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-bottom: 25px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 18px;
+  font-size: 16px;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  background: #00ff88;
+  color: #003b1f;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+button:hover {
+  background: #00cc6e;
+}
+
+.admin {
+  margin-top: 18px;
+  font-size: 12px;
+  opacity: 0.35;
+  cursor: pointer;
+}
+
+.admin:hover {
+  opacity: 0.8;
+}
+
+.footer {
+  margin-top: 22px;
+  font-size: 11px;
+  opacity: 0.35;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="logo">LIKRA ECONOMY</div>
+  <div class="subtitle">
+    Sistema financeiro fictício • Banco Central do Jogo
+  </div>
+
+  <input type="text" id="nomeJogador" placeholder="Digite seu nome">
+
+  <button onclick="entrarNoJogo()">Entrar no Jogo</button>
+
+  <div class="admin" onclick="loginAdmin()">Acesso administrativo</div>
+
+  <div class="footer">
+    © Banco Central Likra • Simulação econômica
+  </div>
+</div>
+
+<script>
+function entrarNoJogo() {
+  const nome = document.getElementById("nomeJogador").value.trim();
+
+  if (!nome) {
+    alert("Digite o nome do jogador");
+    return;
+  }
+
+  localStorage.setItem("jogadorNome", nome);
+  window.location.href = "game.html";
+}
+
+function loginAdmin() {
+  const senha = prompt("Senha do administrador:");
+
+  if (senha === "1234") {
+    localStorage.setItem("admin", "true");
+    window.location.href = "game.html?admin=true";
+  } else {
+    alert("Senha incorreta");
+  }
+}
+</script>
+
+</body>
+</html>
