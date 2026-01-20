@@ -197,3 +197,15 @@ function pagarParcela(index) {
         alert("Likra insuficiente para pagar parcela.");
     }
 }
+// ===============================
+// SALDO LIKRA EM TEMPO REAL (UI)
+// ===============================
+function atualizarSaldoUI(){
+    let el = document.getElementById("saldoLikra");
+    if(el){
+        el.innerText = `K$ ${carteira.LIKRA.toFixed(2)}`;
+    }
+}
+
+// Atualiza sempre
+setInterval(atualizarSaldoUI, 1000);
