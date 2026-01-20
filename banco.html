@@ -50,12 +50,14 @@ input{
 }
 
 button{
+    display:block;
     margin-top:10px;
-    padding:10px;
+    padding:12px;
     width:100%;
     border:none;
     border-radius:6px;
     font-weight:bold;
+    font-size:15px;
     cursor:pointer;
 }
 
@@ -72,12 +74,13 @@ button{
 .pay{
     background:#dc2626;
     color:#fff;
+    margin-top:5px;
 }
 
 .list{
     font-size:14px;
     margin-top:10px;
-    opacity:.9;
+    opacity:.95;
 }
 
 a{
@@ -124,7 +127,7 @@ a{
 
 <script>
 // ===============================
-// INTERFACE VISUAL
+// INTERFACE VISUAL DO BANCO
 // ===============================
 function comprarTituloUI(){
     let valor = Number(document.getElementById("valorTitulo").value);
@@ -151,14 +154,15 @@ function atualizarListas(){
         tit.innerHTML += `#${i+1} - K$ ${t.valor} | Juros ${(t.juros*100)}%<br>`;
     });
 
-    emp.innerHTML = "<strong>Empréstimos:</strong><br>";
+    emp.innerHTML = "<strong>Empréstimos ativos:</strong><br>";
     emprestimos.forEach((e,i)=>{
-        emp.innerHTML += `#${i+1} - Restante K$ ${e.restante.toFixed(2)}
-        <button class="pay" onclick="pagarParcela(${i})">Pagar parcela</button><br>`;
+        emp.innerHTML += `
+        #${i+1} - Restante K$ ${e.restante.toFixed(2)}<br>
+        <button class="pay" onclick="pagarParcela(${i})">Pagar parcela</button>
+        `;
     });
 }
 
-// Atualiza listas automaticamente
 setInterval(atualizarListas, 3000);
 </script>
 
