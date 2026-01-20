@@ -1,163 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-const SISTEMA = "Orsilan";
 <head>
-    <header>
-🌍 Mercado de Orsilan
-</header>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: #f1f5f9;
-        }
+<meta charset="UTF-8">
+<title>Mercado de Orsilan</title>
 
-        header {
-            background: #020617;
-            padding: 15px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .saldo {
-            text-align: center;
-            padding: 10px;
-            background: #020617;
-            font-size: 16px;
-        }
-
-        .market {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .coin-card {
-            background: #020617;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .coin-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .coin-price {
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: #38bdf8;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .buy {
-            background: #16a34a;
-            color: white;
-        }
-
-        .sell {
-            background: #dc2626;
-            color: white;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: #020617;
-            font-size: 13px;
-            opacity: 0.7;
-        }
-    </style>
+<style>
+body{margin:0;font-family:Arial;background:#0f172a;color:#f1f5f9}
+header{text-align:center;padding:15px;background:#020617;font-size:22px}
+.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:20px}
+.coin-card{background:#020617;padding:15px;border-radius:10px}
+.buttons{display:flex;gap:10px}
+button{flex:1;padding:8px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
+.buy{background:#16a34a;color:#fff}
+.sell{background:#dc2626;color:#fff}
+a{color:#38bdf8;display:block;text-align:center;margin:10px}
+</style>
 </head>
 
 <body>
 
-<header>
-    💱 Mercado Financeiro
-</header>
-
-<div class="saldo">
-    Moeda base: <strong>LIKRA (K$) – Orsilan</strong>
-</div>
+<header>🌍 Mercado de Orsilan</header>
 
 <section class="market">
-
     <div class="coin-card">
-        <div class="coin-name">LIKRA (K$)</div>
-        <div class="coin-price">Base do sistema</div>
-    </div>
-
-    <div class="coin-card">
-        <div class="coin-name">TER €</div>
-        <div class="coin-price">Valor variável</div>
+        <strong>TER €</strong>
         <div class="buttons">
-            <button class="buy">Comprar</button>
-            <button class="sell">Vender</button>
+            <button class="buy" data-moeda="TER">Comprar</button>
+            <button class="sell" data-moeda="TER">Vender</button>
         </div>
     </div>
 
     <div class="coin-card">
-        <div class="coin-name">FUG $</div>
-        <div class="coin-price">Valor variável</div>
+        <strong>FUG $</strong>
         <div class="buttons">
-            <button class="buy">Comprar</button>
-            <button class="sell">Vender</button>
+            <button class="buy" data-moeda="FUG">Comprar</button>
+            <button class="sell" data-moeda="FUG">Vender</button>
         </div>
     </div>
 
     <div class="coin-card">
-        <div class="coin-name">DEP £</div>
-        <div class="coin-price">Valor variável</div>
+        <strong>DEP £</strong>
         <div class="buttons">
-            <button class="buy">Comprar</button>
-            <button class="sell">Vender</button>
+            <button class="buy" data-moeda="DEP">Comprar</button>
+            <button class="sell" data-moeda="DEP">Vender</button>
         </div>
     </div>
 
     <div class="coin-card">
-        <div class="coin-name">POLO $</div>
-        <div class="coin-price">Valor variável</div>
+        <strong>POLO $</strong>
         <div class="buttons">
-            <button class="buy">Comprar</button>
-            <button class="sell">Vender</button>
+            <button class="buy" data-moeda="POLO">Comprar</button>
+            <button class="sell" data-moeda="POLO">Vender</button>
         </div>
     </div>
 
     <div class="coin-card">
-        <div class="coin-name">TIGER ¢</div>
-        <div class="coin-price">Valor variável</div>
+        <strong>TIGER ¢</strong>
         <div class="buttons">
-            <button class="buy">Comprar</button>
-            <button class="sell">Vender</button>
+            <button class="buy" data-moeda="TIGER">Comprar</button>
+            <button class="sell" data-moeda="TIGER">Vender</button>
         </div>
     </div>
-
 </section>
 
-<footer>
-    Jogo financeiro fictício • Sistema em desenvolvimento
-</footer>
+<a href="banco.html">🏦 Ir para o Banco</a>
 
-<!-- SCRIPT DO MERCADO -->
 <script src="mercado.js"></script>
-
 </body>
 </html>
