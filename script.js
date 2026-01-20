@@ -1,23 +1,54 @@
 // ===============================
-// ESTADO DO JOGO
+// CHAVES DE SALVAMENTO
 // ===============================
-let saldo = 10000;
-
-let moedas = {
-    Bitcoin: 500,
-    Ethereum: 300,
-    Orsilan: 50
-};
-
-// carteira do jogador (quantidade)
-let carteira = {
-    Bitcoin: 0,
-    Ethereum: 0,
-    Orsilan: 0
-};
+const STORAGE_KEY = "LIKRA_JOGO";
 
 // ===============================
-// ATUALIZA UI
+// ESTADO PADRÃO DO JOGO
+// ===============================
+let estadoPadrao = {
+    saldo: 10000,
+    moedas: {
+        Bitcoin: 500,
+        Ethereum: 300,
+        Orsilan: 50
+    },
+    carteira: {
+        Bitcoin: 0,
+        Ethereum: 0,
+        Orsilan: 0
+    }
+};
+
+// ===============================
+// CARREGAR / SALVAR
+// ===============================
+function carregarEstado() {
+    const salvo = localStorage.getItem(STORAGE_KEY);
+    if (salvo) {
+        return JSON.parse(salvo);
+    }
+    return JSON.parse(JSON.stringify(estadoPadrao));
+}
+
+function salvarEstado() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        saldo,
+        moedas,
+        carteira
+    }));
+}
+
+// ===============================
+// ESTADO ATUAL
+// ===============================
+let estado = carregarEstado();
+let saldo = estado.saldo;
+let moedas = estado.moedas;
+let carteira = estado.carteira;
+
+// ===============================
+// UI
 // ===============================
 function atualizarSaldo() {
     const el = document.getElementById("saldo");
@@ -51,6 +82,7 @@ function variarMercado() {
         moedas[moeda] += moedas[moeda] * variacao;
         moedas[moeda] = Math.max(1, moedas[moeda]);
     }
+    salvarEstado();
     atualizarPrecos();
 }
 
@@ -59,6 +91,7 @@ function comprar(moeda) {
     if (saldo >= preco) {
         saldo -= preco;
         carteira[moeda]++;
+        salvarEstado();
         atualizarSaldo();
         atualizarCarteira();
     } else {
@@ -70,6 +103,7 @@ function vender(moeda) {
     if (carteira[moeda] > 0) {
         saldo += moedas[moeda];
         carteira[moeda]--;
+        salvarEstado();
         atualizarSaldo();
         atualizarCarteira();
     } else {
