@@ -1,108 +1,122 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Likra Economy — Jogo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Likra Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b0b0b;
-  color:#eafff4;
-}
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #020617, #020617);
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
 
-header{
-  background:#121212;
-  padding:15px;
-  text-align:center;
-  color:#00ff88;
-  font-size:20px;
-  font-weight:bold;
-}
+    header {
+      padding: 20px;
+      background: #020617;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
 
-.container{
-  padding:15px;
-}
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
 
-.card{
-  background:#1a1a1a;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:15px;
-}
+    .container {
+      padding: 20px;
+      max-width: 420px;
+      margin: auto;
+    }
 
-.card h3{
-  margin-top:0;
-  color:#00ff88;
-}
+    .card {
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
 
-.menu{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
+    .player {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.btn{
-  background:#00ff88;
-  color:#003b1f;
-  padding:12px;
-  text-align:center;
-  border-radius:10px;
-  font-weight:bold;
-}
-</style>
+    .player span {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .saldo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+
+    .actions button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .actions button.secondary {
+      background: #22c55e;
+    }
+
+    footer {
+      text-align: center;
+      padding: 12px;
+      font-size: 12px;
+      opacity: 0.5;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  LIKRA ECONOMY — Bem-vindo, <span id="nomeJogadorTela"></span>
-</header>
+  <header>
+    <h1>LIKRA</h1>
+    <small>Simulador Econômico</small>
+  </header>
 
-<div class="container">
+  <div class="container">
 
-  <div class="card">
-    <h3>Carteira</h3>
-    <p>LIKRA: <strong id="saldoLikra">K$ 0,00</strong></p>
-    <section class="banco">
-  <h2>🏦 Banco Central</h2>
+    <div class="card player">
+      <div>
+        <span>Jogador</span><br>
+        <strong id="nomeJogadorTela">---</strong>
+      </div>
 
-  <div class="card">
-    <p>Saldo atual:</p>
-  </div>
-
-  <div class="card">
-    <p>Operação de teste</p>
-    <button onclick="transacao(100, 'LIKRA')">
-      Receber K$ 100 (taxa 3%)
-    </button>
-  </div>
-</section>
-    <p>Outras moedas: --</p>
-  </div>
-
-  <div class="card">
-    <h3>Banco</h3>
-    <div class="menu">
-      <div class="btn">Câmbio</div>
-      <div class="btn">Empréstimos</div>
-      <div class="btn">Títulos</div>
-      <div class="btn">Fundo</div>
+      <div class="saldo" id="saldoLikra">K$ 0,00</div>
     </div>
+
+    <div class="card actions">
+      <button>Mercado</button>
+      <button class="secondary">Banco</button>
+      <button>Investimentos</button>
+    </div>
+
   </div>
 
-</div>
+  <footer>
+    Likra © 2026
+  </footer>
 
-<script src="script.js"></script>
-<script>
-  carregarJogador();
-</script>
   <script src="script.js"></script>
-<script>
-  carregarJogador();
-</script>
+  <script>
+    carregarJogador();
+  </script>
 
 </body>
 </html>
